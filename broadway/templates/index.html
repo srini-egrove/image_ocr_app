@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image Identification app</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/image_ocr_app.css">
+    <link rel='stylesheet' href='https://necolas.github.io/normalize.css/2.1.3/normalize.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+    <body>
+        <ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Image Upload</button>
+          </li>
+
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div id="file">
+                <form class="searchbox" id="my-form" action="" enctype="multipart/form-data">
+                    <input type="file" id="user_img" placeholder="Search" />
+                    <button type="button" value="search" id="img_submit">Search</button>
+                </form>
+            </div>
+          </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#img_submit').click(function(){
+              var form = $('#my-form')[0];
+              var fd = new FormData(form);
+              console.log("fd--->",fd)
+              var files = $('#user_img')[0].files[0];
+              fd.append('user_image_file',files);
+
+              toastr.info("The process stared please wait")
+              $.ajax({
+                url: '',
+                method: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if(response.data)
+                    {
+                        var images_link = response.data
+                        if(images_link == 'No links')
+                        {
+                           toastr.error("Website is not fetched for the given image") 
+                        }
+                        else
+                        {
+                            window.open(images_link,'_blank');
+                        }
+
+                    }
+                    else
+                    {
+                       toastr.error("Unable to fetch data") 
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    toastr.error("Unable to fetch data")
+                }
+              });
+            });
+        });
+
+    </script>
+
+</html>

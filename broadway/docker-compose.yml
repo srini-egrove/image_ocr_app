@@ -1,0 +1,23 @@
+version: "3"
+services:
+  image_app:
+    image: image_ocr_app:0.1
+    container_name: image_ocr_app
+    command: bash ./runserver.sh
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/image_identification
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:12.14
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=entertainment
+    ports:
+      - 9000:5432
+    volumes:
+      - ~/image_app/postgress_db_data:/var/lib/postgresql/data
