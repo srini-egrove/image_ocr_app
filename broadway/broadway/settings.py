@@ -28,6 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+CSRF_TRUSTED_ORIGINS = ['https://imageapp.theopenxpress.com']
+CORS_ORIGIN_WHITELIST = ['https://imageapp.theopenxpress.com']
+
+
 # Application definition
 
 INSTALLED_APPS = [

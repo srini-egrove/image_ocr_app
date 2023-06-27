@@ -54,7 +54,7 @@
                     if(response.data)
                     {
                         var images_link = response.data
-                        if(images_link == 'No links')
+                        if(images_link == 'No links' || images_link == 'no_data')
                         {
                            toastr.error("Website is not fetched for the given image") 
                         }
