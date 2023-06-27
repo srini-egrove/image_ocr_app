@@ -16,7 +16,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=entertainment
+      - POSTGRES_DB=broadway
     ports:
       - 9000:5432
     volumes:
